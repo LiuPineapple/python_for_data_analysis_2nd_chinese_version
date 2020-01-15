@@ -19,6 +19,7 @@ In [2]: from pandas import Series, DataFrame
 
 ## Series
 Series是一种类似于一维数组的对象，它由一组数据（各种NumPy数据类型）以及一组与之相关的数据标签（即索引）组成。仅由一组数据即可产生最简单的Series：
+
 ```python
 In [11]: obj = pd.Series([4, 7, -5, 3])
 
@@ -31,7 +32,27 @@ Out[12]:
 dtype: int64
 ```
 
+---
+
+##### Notes
+
+1. Series等与list不同，无法直接创建，只能通过类型转换函数创建，或者你也可以认为这就是直接创建。
+
+2. 创建Series之后，pd会自动把values转换为np数组，index总为pd中的Index类或者其子类的实例。
+
+   ~~~python
+   ex1 = [1,2,'er',4]
+   ex1 = Series(ex1)
+   ex1.values
+   Out:array([1, 2, 'er', 4], dtype=object)
+   ex1.index
+   Out:RangeIndex(start=0, stop=4, step=1)
+   ~~~
+
+---
+
 Series的字符串表现形式为：索引在左边，值在右边。由于我们没有为数据指定索引，于是会自动创建一个0到N-1（N为数据的长度）的整数型索引。你可以通过Series 的values和index属性获取其数组表示形式和索引对象：
+
 ```python
 In [13]: obj.values
 Out[13]: array([ 4,  7, -5,  3])
@@ -40,7 +61,16 @@ In [14]: obj.index  # like range(4)
 Out[14]: RangeIndex(start=0, stop=4, step=1)
 ```
 
+---
+
+##### Notes
+
+在python中，我们一般不使用index的复数形式，或者认为其复数就是本身
+
+---
+
 通常，我们希望所创建的Series带有一个可以对各个数据点进行标记的索引：
+
 ```python
 In [15]: obj2 = pd.Series([4, 7, -5, 3], index=['d', 'b', 'a', 'c'])
 
