@@ -103,6 +103,12 @@ dtype: int64
 
 ['c', 'a', 'd']是索引列表，即使它包含的是字符串而不是整数。
 
+---
+##### Notes
+1. 同一维度的索引要使用索引列表，否则会被认为是下一维度的,或者下一个参数。
+2. Series索引只能用index而不能用下标，利用index或者说标签进行切片末端是包含的。
+---
+
 使用NumPy函数或类似NumPy的运算（如根据布尔型数组进行过滤、标量乘法、应用数学函数等）都会保留索引值的链接：
 ```python
 In [21]: obj2[obj2 > 0]
@@ -170,6 +176,14 @@ dtype: float64
 
 在这个例子中，sdata中跟states索引相匹配的那3个值会被找出来并放到相应的位置上，但由于"California"所对应的sdata值找不到，所以其结果就为NaN（即“非数字”（not a number），在pandas中，它用于表示缺失或NA值）。因为‘Utah’不在states中，它被从结果中除去。
 
+---
+##### Notes
+Series比较常见的创建方法总结：
+1. pd.Series()传入一个列表或者np数组或者其他，自行指定或者不指定index
+2. pd.Series()传入一个字典key-value，那么字典的key将会成为index，value将会成为values，这时可以通过传入key值组成的列表自行指定Series里面元素的顺序。
+
+---
+
 我将使用缺失（missing）或NA表示缺失数据。pandas的isnull和notnull函数可用于检测缺失数据：
 ```python
 In [32]: pd.isnull(obj4)
@@ -229,6 +243,13 @@ Texas         142000.0
 Utah               NaN
 dtype: float64
 ```
+
+---
+##### Notes
+1. 对于单个Series对象的运算，会保留index，只对values进行类似于np数组的运算，多个Series对象运算，会按照index对齐，再进行类似np数组的运算。
+2. np数组的下标即是其索引，Series有单独的索引属性，如果用户不给的话就自动创建从0到N-1的类似下标的索引，这时看起来与np数组并无太大差别，实则不然，当进行运算或者切片等操作时，np数组的下标会更新会重新排列，但Series的索引不会。即Index对象是不可变对象，只能替换/删除不能修改
+
+---
 
 数据对齐功能将在后面详细讲解。如果你使用过数据库，你可以认为是类似join的操作。
 
@@ -452,6 +473,13 @@ In [64]: frame2.columns
 Out[64]: Index(['year', 'state', 'pop', 'debt'], dtype='object')
 ```
 
+---
+##### Notes
+1. 列索引和属性的方法都可以提取出一个Series出来，提取出来的是视图，也都可以进行赋值（三种赋值方法，单个值广播，数目一样的序列，Series精确匹配），赋值结果会反应到原本的DataFrame中。
+2. 只有列索引的方法可以创建新列和删除列（使用del）。
+
+---
+
 >注意：通过索引方式返回的列只是相应数据的视图而已，并不是副本。因此，对返回的Series所做的任何就地修改全都会反映到源DataFrame上。通过Series的copy方法即可指定复制列。
 
 另一种常见的数据形式是嵌套字典：
@@ -502,6 +530,17 @@ Out[71]:
 2000     NaN   1.5
 2001     2.4   1.7
 ```
+
+---
+##### Notes
+1. DataFrame比较常见的创建方法总结：
+1.pd.DataFrame()传入一个字典key-list of value/array of value，那么字典的key将会成为columns，list of value将会成为一列数据，这时可以通过传入key值组成的列表自行指定DataFrame里面列的顺序。索引自动创建或者手动创建。
+2.pd.DataFrame()传入一个嵌套字典，外层字典的key作为列，内层作为行索引
+3.pd.DataFrame()传入一个二维np数组，自行给出columns和index
+2. Series.name就相当于DataFrame里面的列名。
+3. DataFrame有index,columns,values属性，前两者都是Index类或者其子类的对象，后者是二维np数组。
+
+---
 
 表5-1列出了DataFrame构造函数所能接受的各种数据。
 
@@ -614,6 +653,13 @@ Out[90]: Index(['foo', 'foo', 'bar', 'bar'], dtype='object')
 每个索引都有一些方法和属性，它们可用于设置逻辑并回答有关该索引所包含的数据的常见问题。表5-2列出了这些函数。
 
 ![](http://upload-images.jianshu.io/upload_images/7178691-5499d14f0e2cd639.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+---
+##### Notes
+需要记住的属性方法：
+is_unique属性
+
+---
 
 # 5.2 基本功能
 本节中，我将介绍操作Series和DataFrame中的数据的基本手段。后续章节将更加深入地挖掘pandas在数据分析和处理方面的功能。本书不是pandas库的详尽文档，主要关注的是最重要的功能，那些不大常用的内容（也就是那些更深奥的内容）就交给你自己去摸索吧。
@@ -797,6 +843,14 @@ dtype: float64
 ```
 
 小心使用inplace，它会销毁所有被删除的数据。
+
+---
+##### Notes
+DataFrame/Series删除数据的方法总结：
+1. del df[''] 删除某一列,原地改变DataFrame
+2. Series和DataFrame对象的drop方法，删除某一行或者某一列，如果inplace参数为True，则原地改变，否则为创建副本。
+
+---
 
 ## 索引、选取和过滤
 Series索引（obj[...]）的工作方式类似于NumPy数组的索引，只不过Series的索引值不只是整数。下面是几个例子：
