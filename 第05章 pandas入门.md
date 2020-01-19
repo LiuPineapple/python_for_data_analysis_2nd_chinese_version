@@ -2115,3 +2115,5 @@ Out[266]:
 pandas.DataFrame.interpolate方法（也可用于Series），用于对缺失值插值，官方文档如下：
 
 https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.interpolate.html
+
+---
