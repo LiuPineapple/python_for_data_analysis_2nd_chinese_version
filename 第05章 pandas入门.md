@@ -106,7 +106,7 @@ dtype: int64
 ---
 ##### Notes
 1. 同一维度的索引要使用索引列表，否则会被认为是下一维度的,或者下一个参数。
-2. Series索引只能用index而不能用下标，利用index或者说标签进行切片末端是包含的。
+2. 利用index或者说标签进行切片末端是包含的。
 ---
 
 使用NumPy函数或类似NumPy的运算（如根据布尔型数组进行过滤、标量乘法、应用数学函数等）都会保留索引值的链接：
@@ -750,6 +750,13 @@ c      4   NaN           5
 d      7   NaN           8
 ```
 
+---
+##### Notes
+1. reindex()方法是创建新的对象而不是原地改变。
+2. reindex()方法有fill_value参数，可以对NaN进行自动赋值。
+
+---
+
 表5-3列出了reindex函数的各参数及说明。
 
 ![](http://upload-images.jianshu.io/upload_images/7178691-efa3dbd4b83c61ec.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -848,7 +855,7 @@ dtype: float64
 ##### Notes
 DataFrame/Series删除数据的方法总结：
 1. del df[''] 删除某一列,原地改变DataFrame
-2. Series和DataFrame对象的drop方法，删除某一行或者某一列，如果inplace参数为True，则原地改变，否则为创建副本。
+2. Series和DataFrame对象的drop方法，删除某一行或者某一列，如果inplace参数为True，则原地改变，否则为创建副本，默认为False。
 
 ---
 
@@ -991,6 +998,15 @@ New York   12   13     14    15
 
 这使得DataFrame的语法与NumPy二维数组的语法很像。
 
+---
+##### Notes
+1. DataFrame的两种布尔型索引方式：
+1.传入一个index相同的布尔型Series
+2.传入一个大小相同的布尔型DataFrame
+2. 利用index或者说标签进行切片末端是包含的。
+
+---
+
 ## 用loc和iloc进行选取
 对于DataFrame的行的标签索引，我引入了特殊的标签运算符loc和iloc。它们可以让你用类似NumPy的标记，使用轴标签（loc）或整数索引（iloc），从DataFrame选择行和列的子集。
 
@@ -1096,7 +1112,30 @@ Out[149]:
 dtype: float64
 ```
 
+---
+##### Notes
+1. Series对象既可以使用标签（index）进行索引/切片，也可以使用整数（下标）进行索引/切片。（更改之前的错误）
+2. DataFrame如果不用loc和iloc方法，使用标签是进行列索引/切片，即提取一列或多列，使用整数的话是进行行切片，且只能进行切片，即提取多行，而无法进行索引，即提取一行。
+3. 上述两种方法在标签也是整数的时候会产生歧义，这时候默认使用的是标签。故建议使用loc和iloc的方法进行行和列索引切片，可以说是非常方便了。
+
+---
+
+---
+
+##### Notes
+
+补充：
+
+pandas.DataFrame.truncate方法（也可用于Series），用法见官方文档：
+
+https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.truncate.html
+
+truncate之后是显示留下来的，而不是像pop一样显示删去的。默认copy=True，即创建副本。
+
+---
+
 ## 算术运算和数据对齐
+
 pandas最重要的一个功能是，它可以对不同索引的对象进行算术运算。在将对象相加时，如果存在不同的索引对，则结果的索引就是该索引对的并集。对于有数据库经验的用户，这就像在索引标签上进行自动外连接。看一个简单的例子：
 ```python
 In [150]: s1 = pd.Series([7.3, -2.5, 3.4, 1.5], index=['a', 'c', 'd', 'e'])
@@ -1378,8 +1417,25 @@ Oregon -1.0  0.0  1.0
 
 传入的轴号就是希望匹配的轴。在本例中，我们的目的是匹配DataFrame的行索引（axis='index' or axis=0）并进行广播。
 
+---
+##### Notes
+1. 多个DataFrame或Series进行运算是根据行索引和列索引（如果有的话）取并、补NaN，对齐后再进行运算。没有重叠的地方（相当于一个对象多了未重叠部分，但是取值为NaN)和其中一个对象为NaN的地方，运算完都是NaN。
+2.  DataFrame对象和Series对象不只有算术运算（使用算术运算符），还有算术运算方法。
+3.  fill_value=0或其它常数，意思是在取并补NaN后，但没有运算之前，把所有的NaN替换为某一个常数
+4.  广播是使用低一维度的数据与高一维度的数据进行匹配。
+
+---
+
 ## 函数应用和映射
+##### Notes
+
+1. np的ufuncs（元素级数组方法）可以用在pd对象上，相当于对其values做操作，行列索引不变。
+2. 去记每个函数的axis默认0还是1多少太麻烦了，可以每次用的时候都写明。
+
+---
+
 NumPy的ufuncs（元素级数组方法）也可用于操作pandas对象：
+
 ```python
 In [190]: frame = pd.DataFrame(np.random.randn(4, 3), columns=list('bde'),
    .....:                      index=['Utah', 'Ohio', 'Texas', 'Oregon'])
@@ -1440,7 +1496,12 @@ min -0.555730  0.281746 -1.296221
 max  1.246435  1.965781  1.393406
 ```
 
+##### Notes:以下暂时不需要掌握
+
+---
+
 元素级的Python函数也是可以用的。假如你想得到frame中各个浮点值的格式化字符串，使用applymap即可：
+
 ```python
 In [198]: format = lambda x: '%.2f' % x
 
@@ -1464,7 +1525,10 @@ Oregon    -1.30
 Name: e, dtype: object
 ```
 
+---
+
 ## 排序和排名
+
 根据条件对数据集排序（sorting）也是一种重要的内置运算。要对行或列索引进行排序（按字典顺序），可使用sort_index方法，它将返回一个已排序的新对象：
 ```python
 In [201]: obj = pd.Series(range(4), index=['d', 'a', 'b', 'c'])
@@ -1566,7 +1630,18 @@ Out[214]:
 1  1  7
 ```
 
+---
+##### Notes
+sort_values()也有inplace参数，默认是False，即创建副本。有axis参数，默认是0，有ascending参数，默认是True，即升序。
+
+---
+
 排名会从1开始一直到数组中有效数据的数量。接下来介绍Series和DataFrame的rank方法。默认情况下，rank是通过“为各组分配一个平均排名”的方式破坏平级关系的：
+
+##### Notes:以下暂时不需要掌握
+
+---
+
 ```python
 In [215]: obj = pd.Series([7, -5, 7, 4, 2, 0, 4])
 In [216]: obj.rank()
@@ -1636,7 +1711,10 @@ Out[221]:
 
 ![表5-6 排名时用于破坏平级关系的方法](http://upload-images.jianshu.io/upload_images/7178691-7edfab5b4a147581.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+---
+
 ## 带有重复标签的轴索引
+
 直到目前为止，我所介绍的所有范例都有着唯一的轴标签（索引值）。虽然许多pandas函数（如reindex）都要求标签唯一，但这并不是强制性的。我们来看看下面这个简单的带有重复索引值的Series：
 ```python
 In [222]: obj = pd.Series(range(5), index=['a', 'a', 'b', 'b', 'c'])
@@ -1793,7 +1871,15 @@ dtype: object
 
 ![](http://upload-images.jianshu.io/upload_images/7178691-11fa967f658ac314.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+---
+##### Notes
+1. pd里的大部分描述性统计函数都是既可以对Series使用，也可以对DataFrame使用的。对Series使用一般算出一个标量，对DataFrame使用一般出来一个向量，而且使用的时候会有axis的参数选择是对行使用还是对列使用，默认axis=0,即对行进行操作，列不变。
+2. 这些描述性统计函数都是基于没有缺失数据的假设构建的（默认skipna=True）。 
+
+---
+
 ## 相关系数与协方差
+
 有些汇总统计（如相关系数和协方差）是通过参数对计算出来的。我们来看几个DataFrame，它们的数据来自Yahoo!Finance的股票价格和成交量，使用的是pandas-datareader包（可以用conda或pip安装）：
 ```python
 conda install pandas-datareader
@@ -1922,7 +2008,12 @@ d    1
 dtype: int64
 ```
 
+##### Notes:以下暂时不需要掌握
+
+---
+
 isin用于判断矢量化集合的成员资格，可用于过滤Series中或DataFrame列中数据的子集：
+
 ```python
 In [256]: obj
 Out[256]: 
@@ -2008,7 +2099,19 @@ Out[266]:
 
 这里，结果中的行标签是所有列的唯一值。后面的频率值是每个列中这些值的相应计数。
 
+---
+
 # 5.4 总结
 在下一章，我们将讨论用pandas读取（或加载）和写入数据集的工具。
 
 之后，我们将更深入地研究使用pandas进行数据清洗、规整、分析和可视化工具。
+
+---
+
+##### Notes
+
+补充：
+
+pandas.DataFrame.interpolate方法（也可用于Series），用于对缺失值插值，官方文档如下：
+
+https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.interpolate.html
