@@ -65,7 +65,17 @@ Out[14]: RangeIndex(start=0, stop=4, step=1)
 
 ##### Notes
 
-在python中，我们一般不使用index的复数形式，或者认为其复数就是本身
+1. 在python中，我们一般不使用index的复数形式，或者认为其复数就是本身
+
+2. 对于Series和DataFrame对象，都可以使用len()函数，返回的是其index的长度（对于Series来说，就是它的长度）
+
+3. 补充：pandas.Series.count()方法，返回序列中non-NA/null元素的个数。详情见官方文档：
+
+   https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.count.html
+
+   pandas.DataFrame.count()方法，默认返回每一列中的non-NA/null元素的个数，可以使用axis参数调整：
+
+   https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.count.html
 
 ---
 
@@ -135,7 +145,14 @@ c      20.085537
 dtype: float64
 ```
 
+---
+##### Notes
+Series进行布尔型索引的方法为传入一个index相同的bool型Series。
+
+---
+
 还可以将Series看成是一个定长的有序字典，因为它是索引值到数据值的一个映射。它可以用在许多原本需要字典参数的函数中：
+
 ```python
 In [24]: 'b' in obj2
 Out[24]: True
@@ -289,16 +306,6 @@ Jeff    -5
 Ryan     3
 dtype: int64
 ```
-
----
-
-##### Notes
-
-补充：pandas.Series.count()方法，返回序列中non-NA/null元素的个数。详情见官方文档：
-
-https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.count.html
-
----
 
 ## DataFrame
 
@@ -486,7 +493,7 @@ Out[64]: Index(['year', 'state', 'pop', 'debt'], dtype='object')
 
 ---
 ##### Notes
-1. 列索引和属性的方法都可以提取出一个Series出来，提取出来的是视图，也都可以进行赋值（三种赋值方法，单个值广播，数目一样的序列，Series精确匹配），赋值结果会反应到原本的DataFrame中。
+1. 列索引和属性的方法都可以提取出一个Series出来(提取出来的是视图，即使赋值给其他变量也是视图,与np数组一样)也都可以进行赋值（三种赋值方法，单个值广播，数目一样的序列，Series精确匹配），赋值结果会反应到原本的DataFrame中。
 2. 只有列索引的方法可以创建新列和删除列（使用del）。
 
 ---
@@ -762,9 +769,12 @@ d      7   NaN           8
 ```
 
 ---
+
 ##### Notes
+
 1. reindex()方法是创建新的对象而不是原地改变。
-2. reindex()方法有fill_value参数，可以对NaN进行自动赋值。
+2. reindex()方法需要记住的有fill_value,method,columns。
+3. reindex()方法不需要传入一个Index对象，只要像创建index的时候一样传入列表就可以，默认reindex行，传入columns参数使得reindex列。
 
 ---
 
@@ -1015,6 +1025,8 @@ New York   12   13     14    15
 1.传入一个index相同的布尔型Series
 2.传入一个大小相同的布尔型DataFrame
 2. 利用index或者说标签进行切片末端是包含的。
+3. Series对象既可以使用标签（index）进行索引/切片，也可以使用整数（下标）进行索引/切片。
+4. DataFrame如果不用loc和iloc方法，使用标签是进行列索引/切片，即提取一列或多列，使用整数的话是进行行切片，且只能进行切片，即提取多行，而无法进行索引，即提取一行。
 
 ---
 
@@ -1125,9 +1137,7 @@ dtype: float64
 
 ---
 ##### Notes
-1. Series对象既可以使用标签（index）进行索引/切片，也可以使用整数（下标）进行索引/切片。（更改之前的错误）
-2. DataFrame如果不用loc和iloc方法，使用标签是进行列索引/切片，即提取一列或多列，使用整数的话是进行行切片，且只能进行切片，即提取多行，而无法进行索引，即提取一行。
-3. 上述两种方法在标签也是整数的时候会产生歧义，这时候默认使用的是标签。故建议使用loc和iloc的方法进行行和列索引切片，可以说是非常方便了。
+3. 之前的两种方法在标签也是整数的时候会产生歧义，这时候默认使用的是标签。故建议使用loc和iloc的方法进行行和列索引切片，可以说是非常方便了。
 
 ---
 
@@ -1433,7 +1443,7 @@ Oregon -1.0  0.0  1.0
 1. 多个DataFrame或Series进行运算是根据行索引和列索引（如果有的话）取并、补NaN，对齐后再进行运算。没有重叠的地方（相当于一个对象多了未重叠部分，但是取值为NaN)和其中一个对象为NaN的地方，运算完都是NaN。
 2.  DataFrame对象和Series对象不只有算术运算（使用算术运算符），还有算术运算方法。
 3.  fill_value=0或其它常数，意思是在取并补NaN后，但没有运算之前，把所有的NaN替换为某一个常数
-4.  广播是使用低一维度的数据与高一维度的数据进行匹配。
+4.  广播是使用低维度的数据与高维度的数据进行匹配。
 
 ---
 
@@ -2123,7 +2133,7 @@ Out[266]:
 
 补充：
 
-pandas.DataFrame.interpolate方法（也可用于Series），用于对缺失值插值，官方文档如下：
+1. pandas.DataFrame.interpolate方法（也可用于Series），用于对缺失值插值，官方文档如下：
 
 https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.interpolate.html
 
