@@ -196,7 +196,7 @@ dtype: float64
 ---
 ##### Notes
 Series比较常见的创建方法总结：
-1. pd.Series()传入一个列表或者np数组或者其他，自行指定或者不指定index
+1. pd.Series()传入一个列表或者np数组或者其他，自行指定或者不指定index，指定index也可以使用列表或者np数组或者其他。
 2. pd.Series()传入一个字典key-value，那么字典的key将会成为index，value将会成为values，这时可以通过传入key值组成的列表自行指定Series里面元素的顺序。
 
 ---
@@ -774,7 +774,7 @@ d      7   NaN           8
 
 1. reindex()方法是创建新的对象而不是原地改变。
 2. reindex()方法需要记住的有fill_value,method,columns。
-3. reindex()方法不需要传入一个Index对象，只要像创建index的时候一样传入列表就可以，默认reindex行，传入columns参数使得reindex列。
+3. reindex()方法不需要传入一个Index对象，只要像创建index的时候一样传入列表/数组或其他序列就可以，默认reindex行，传入columns参数使得reindex列。
 
 ---
 
@@ -1450,8 +1450,9 @@ Oregon -1.0  0.0  1.0
 ## 函数应用和映射
 ##### Notes
 
-1. np的ufuncs（元素级数组方法）可以用在pd对象上，相当于对其values做操作，行列索引不变。
-2. 去记每个函数的axis默认0还是1多少太麻烦了，可以每次用的时候都写明。
+1. np有元素级数组方法和数学与统计方法，pd有算术运算方法和统计方法。
+2. 同时，np的ufuncs（元素级数组方法）可以用在pd对象上，相当于对其values做操作，行列索引不变。
+3. 去记每个函数的axis默认0还是1多少太麻烦了，可以每次用的时候都写明。
 
 ---
 
@@ -2028,6 +2029,14 @@ c    3
 d    1
 dtype: int64
 ```
+
+---
+
+##### Notes
+
+unique和value_counts都是对值进行计算，和index无关。
+
+---
 
 ##### Notes:以下暂时不需要掌握
 
