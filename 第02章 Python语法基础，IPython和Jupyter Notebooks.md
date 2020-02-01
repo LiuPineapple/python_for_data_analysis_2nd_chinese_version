@@ -301,6 +301,15 @@ np.loadtxt
 np.pkgload
 ```
 
+---
+
+##### Notes
+
+1. 自省只在ipython中可用
+2. 在python和ipython交互式环境中，可以使用help()显示帮助信息
+
+---
+
 ### %run命令
 
 你可以用`%run`命令运行所有的Python程序。假设有一个文件`ipython_script_test.py`：
