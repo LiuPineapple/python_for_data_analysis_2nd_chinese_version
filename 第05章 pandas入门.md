@@ -34,7 +34,7 @@ dtype: int64
 
 ---
 
-##### Notes
+##### Note
 
 1. Series等与list不同，无法直接创建，只能通过类型转换函数创建，或者你也可以认为这就是直接创建。
 
@@ -63,7 +63,7 @@ Out[14]: RangeIndex(start=0, stop=4, step=1)
 
 ---
 
-##### Notes
+##### Note
 
 1. 在python中，我们一般不使用index的复数形式，或者认为其复数就是本身
 
@@ -114,7 +114,7 @@ dtype: int64
 ['c', 'a', 'd']是索引列表，即使它包含的是字符串而不是整数。
 
 ---
-##### Notes
+##### Note
 1. 同一维度的索引要使用索引列表，否则会被认为是下一维度的,或者下一个参数。
 2. 利用index或者说标签进行切片末端是包含的。
 ---
@@ -146,7 +146,7 @@ dtype: float64
 ```
 
 ---
-##### Notes
+##### Note
 Series进行布尔型索引的方法为传入一个index相同的bool型Series。
 
 ---
@@ -194,7 +194,7 @@ dtype: float64
 在这个例子中，sdata中跟states索引相匹配的那3个值会被找出来并放到相应的位置上，但由于"California"所对应的sdata值找不到，所以其结果就为NaN（即“非数字”（not a number），在pandas中，它用于表示缺失或NA值）。因为‘Utah’不在states中，它被从结果中除去。
 
 ---
-##### Notes
+##### Note
 Series比较常见的创建方法总结：
 1. pd.Series()传入一个列表或者np数组或者其他，自行指定或者不指定index，指定index也可以使用列表或者np数组或者其他。
 2. pd.Series()传入一个字典key-value，那么字典的key将会成为index，value将会成为values，这时可以通过传入key值组成的列表自行指定Series里面元素的顺序。
@@ -262,7 +262,7 @@ dtype: float64
 ```
 
 ---
-##### Notes
+##### Note
 1. 对于单个Series对象的运算，会保留index，只对values进行类似于np数组的运算，多个Series对象运算，会按照index对齐，再进行类似np数组的运算。
 2. np数组的下标即是其索引，Series有单独的索引属性，如果用户不给的话就自动创建从0到N-1的类似下标的索引，这时看起来与np数组并无太大差别，实则不然，当进行运算或者切片等操作时，np数组的下标会更新会重新排列，但Series的索引不会。即Index对象是不可变对象，只能替换/删除不能修改
 
@@ -492,7 +492,7 @@ Out[64]: Index(['year', 'state', 'pop', 'debt'], dtype='object')
 ```
 
 ---
-##### Notes
+##### Note
 1. 列索引和属性的方法都可以提取出一个Series出来(提取出来的是视图，即使赋值给其他变量也是视图,与np数组一样)也都可以进行赋值（三种赋值方法，单个值广播，数目一样的序列，Series精确匹配），赋值结果会反应到原本的DataFrame中。
 2. 只有列索引的方法可以创建新列和删除列（使用del）。
 
@@ -550,7 +550,7 @@ Out[71]:
 ```
 
 ---
-##### Notes
+##### Note
 1. DataFrame比较常见的创建方法总结：
 1.pd.DataFrame()传入一个字典key-list of value/array of value，那么字典的key将会成为columns，list of value将会成为一列数据，这时可以通过传入key值组成的列表自行指定DataFrame里面列的顺序。索引自动创建或者手动创建。
 2.pd.DataFrame()传入一个嵌套字典，外层字典的key作为列，内层作为行索引
@@ -673,7 +673,7 @@ Out[90]: Index(['foo', 'foo', 'bar', 'bar'], dtype='object')
 ![](http://upload-images.jianshu.io/upload_images/7178691-5499d14f0e2cd639.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ---
-##### Notes
+##### Note
 需要记住的属性方法：
 is_unique属性
 
@@ -770,7 +770,7 @@ d      7   NaN           8
 
 ---
 
-##### Notes
+##### Note
 
 1. reindex()方法是创建新的对象而不是原地改变。
 2. reindex()方法需要记住的有fill_value,method,columns。
@@ -873,7 +873,7 @@ dtype: float64
 小心使用inplace，它会销毁所有被删除的数据。
 
 ---
-##### Notes
+##### Note
 DataFrame/Series删除数据的方法总结：
 1. del df[''] 删除某一列,原地改变DataFrame
 2. Series和DataFrame对象的drop方法，删除某一行或者某一列，如果inplace参数为True，则原地改变，否则为创建副本，默认为False。
@@ -1020,7 +1020,7 @@ New York   12   13     14    15
 这使得DataFrame的语法与NumPy二维数组的语法很像。
 
 ---
-##### Notes
+##### Note
 1. DataFrame的两种布尔型索引方式：
 1.传入一个index相同的布尔型Series
 2.传入一个大小相同的布尔型DataFrame
@@ -1136,14 +1136,14 @@ dtype: float64
 ```
 
 ---
-##### Notes
+##### Note
 3. 之前的两种方法在标签也是整数的时候会产生歧义，这时候默认使用的是标签。故建议使用loc和iloc的方法进行行和列索引切片，可以说是非常方便了。
 
 ---
 
 ---
 
-##### Notes
+##### Note
 
 补充：
 
@@ -1439,7 +1439,7 @@ Oregon -1.0  0.0  1.0
 传入的轴号就是希望匹配的轴。在本例中，我们的目的是匹配DataFrame的行索引（axis='index' or axis=0）并进行广播。
 
 ---
-##### Notes
+##### Note
 1. 多个DataFrame或Series进行运算是根据行索引和列索引（如果有的话）取并、补NaN，对齐后再进行运算。没有重叠的地方（相当于一个对象多了未重叠部分，但是取值为NaN)和其中一个对象为NaN的地方，运算完都是NaN。
 2.  DataFrame对象和Series对象不只有算术运算（使用算术运算符），还有算术运算方法。
 3.  fill_value=0或其它常数，意思是在取并补NaN后，但没有运算之前，把所有的NaN替换为某一个常数
@@ -1448,7 +1448,7 @@ Oregon -1.0  0.0  1.0
 ---
 
 ## 函数应用和映射
-##### Notes
+##### Note
 
 1. np有元素级数组方法和数学与统计方法，pd有算术运算方法和统计方法。
 2. 同时，np的ufuncs（元素级数组方法）可以用在pd对象上，相当于对其values做操作，行列索引不变。
@@ -1518,7 +1518,7 @@ min -0.555730  0.281746 -1.296221
 max  1.246435  1.965781  1.393406
 ```
 
-##### Notes:以下暂时不需要掌握
+##### Note 以下暂时不需要掌握
 
 ---
 
@@ -1653,14 +1653,14 @@ Out[214]:
 ```
 
 ---
-##### Notes
+##### Note
 sort_values()也有inplace参数，默认是False，即创建副本。有axis参数，默认是0，有ascending参数，默认是True，即升序。
 
 ---
 
 排名会从1开始一直到数组中有效数据的数量。接下来介绍Series和DataFrame的rank方法。默认情况下，rank是通过“为各组分配一个平均排名”的方式破坏平级关系的：
 
-##### Notes:以下暂时不需要掌握
+##### Note 以下暂时不需要掌握
 
 ---
 
@@ -1894,7 +1894,7 @@ dtype: object
 ![](http://upload-images.jianshu.io/upload_images/7178691-11fa967f658ac314.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ---
-##### Notes
+##### Note
 1. pd里的大部分描述性统计函数都是既可以对Series使用，也可以对DataFrame使用的。对Series使用一般算出一个标量，对DataFrame使用一般出来一个向量，而且使用的时候会有axis的参数选择是对行使用还是对列使用，默认axis=0,即对行进行操作，列不变。
 2. 这些描述性统计函数都是基于没有缺失数据的假设构建的（默认skipna=True）。 
 
@@ -2032,13 +2032,13 @@ dtype: int64
 
 ---
 
-##### Notes
+##### Note
 
 unique和value_counts都是对值进行计算，和index无关。
 
 ---
 
-##### Notes:以下暂时不需要掌握
+##### Note 以下暂时不需要掌握
 
 ---
 
@@ -2138,7 +2138,7 @@ Out[266]:
 
 ---
 
-##### Notes
+##### Note
 
 补充：
 
