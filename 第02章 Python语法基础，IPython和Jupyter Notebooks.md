@@ -66,6 +66,16 @@ In [2]:
 
 IPython默认采用序号的格式`In [2]:`，与标准的`>>>`提示符不同。
 
+---
+
+##### Note
+
+1. 命令行中输入python或者ipython进入交互式环境的本质是打开了环境变量路径中的python.exe或者ipython.exe程序，和你找到程序所在文件夹点击打开效果一样。
+2. windows只能运行.exe的二进制文件(在命令行输入程序名运行时，.exe可以省略,其他扩展名不能省略)，其他文件要指定使用某个软件(即某个windows能够识别的.exe文件)才能识别运行。比如.py文件就需要指定python来打开，也就是上面说的--运行Python程序只需调用Python的同时，使用一个`.py`文件作为它的第一个参数
+3. windows中的文件系统默认不区分大小写，cmd的命令同样不区分大小写，因此python python.exe Python.exe Python PYthon这些命令都是一样的。当然变量中的内容是区分大小写的比如'string'和'String'并不是一个字符串
+
+---
+
 ## 2.2 IPython基础
 
 在本节中，我们会教你打开运行IPython shell和jupyter notebook，并介绍一些基本概念。
@@ -365,6 +375,10 @@ Out[16]: 1.4666666666666666
 
 > 警告：当Python代码调用了一些编译的扩展模块，按Ctrl-C不一定将执行的程序立即停止。在这种情况下，你必须等待，直到控制返回Python解释器，或者在更糟糕的情况下强制终止Python进程。
 
+##### Note 以下暂时不需要掌握
+
+---
+
 ### 从剪贴板执行程序
 
 如果使用Jupyter notebook，你可以将代码复制粘贴到任意代码格执行。在IPython shell中也可以从剪贴板执行。假设在其它应用中复制了如下代码：
@@ -416,6 +430,8 @@ IPython有许多键盘快捷键进行导航提示（类似Emacs文本编辑器�
 ![&#x8868;2-1 IPython&#x7684;&#x6807;&#x51C6;&#x5FEB;&#x6377;&#x952E;](http://upload-images.jianshu.io/upload_images/7178691-e179f5ea00e50691.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240)
 
 Jupyter notebooks有另外一套庞大的快捷键。因为它的快捷键比IPython的变化快，建议你参阅Jupyter notebook的帮助文档。
+
+---
 
 ### 魔术命令
 
@@ -483,6 +499,18 @@ IPython的文档可以在shell中打开，我建议你用`%quickref`或`%magic`�
 
 ![&#x8868;2-2 &#x4E00;&#x4E9B;&#x5E38;&#x7528;&#x7684;IPython&#x9B54;&#x672F;&#x547D;&#x4EE4;](http://upload-images.jianshu.io/upload_images/7178691-c72b11add9b8ccf8.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240)
 
+---
+
+##### Note
+
+需要掌握的魔术命令：%automagic %run %load %time %timeit %pwd %debug
+
+---
+
+##### Note 以下暂时不需要掌握
+
+---
+
 ### 集成Matplotlib
 
 IPython在分析计算领域能够流行的原因之一是它非常好的集成了数据可视化和其它用户界面库，比如matplotlib。不用担心以前没用过matplotlib，本书后面会详细介绍。`%matplotlib`魔术函数配置了IPython shell和Jupyter notebook中的matplotlib。这点很重要，其它创建的图不会出现（notebook）或获取session的控制，直到结束（shell）。
@@ -501,6 +529,8 @@ In [26]: %matplotlib inline
 ```
 
 ![&#x56FE;2-6 Jupyter&#x884C;&#x5185;matplotlib&#x4F5C;&#x56FE;](http://upload-images.jianshu.io/upload_images/7178691-3ab3738a92a15486.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240)
+
+---
 
 ## 2.3 Python语法基础
 
@@ -556,6 +586,15 @@ for line in file_handle:
 ```python
 print("Reached this line")  # Simple status report
 ```
+
+---
+
+##### Note
+
+1. python在遇到#号后，这一行后面的内容就不再执行了
+2. 三个引号也可以做长段的注释，可以做文档字符串。同时也可以做没有换行符的字符串用，具体被解释成哪个要看python解释器
+
+---
 
 ### 函数和对象方法调用
 
@@ -627,6 +666,26 @@ In [29]: data
 Out[29]: [1, 2, 3, 4]
 ```
 
+---
+
+##### Note
+
+python函数传参是否会改变函数外参数的值（记住即可，不深究）？
+
+1. 也就是说，当我们传的参数是Number ,String , Tuple，bool等不可变对象时，无论函数中对其做什么操作，都不会改变函数外这个参数的值；当传的是dictionary、list等可变对象时，如果是重新对其进行赋值，则不会改变函数外参数的值，如果是对其进行操作，则会改变。
+
+   参考博文：
+
+   https://www.cnblogs.com/monkey-moon/p/9347505.html
+
+   https://blog.csdn.net/liuxiao214/article/details/81673093
+
+2. 这其实是因为python中的赋值符号=是对象引用的意思，即把a赋值给b其实是让b和a引用同一个对象
+
+3. 而无论哪种编程语言，向函数传递参数的本质都是 形参=实参 即把实参赋值给形参。无论是C++中的值传递，地址传递，引用传递还是python中的对象引用传递都是基于此，赋值符号的意义不同造成了不同语言中参数传递的差异
+
+---
+
 ### 动态引用，强类型
 
 与许多编译语言（如JAVA和C++）对比，Python中的对象引用不包含附属的类型。下面的代码是没有问题的：
@@ -691,6 +750,14 @@ Out[25]: True
 ```
 
 ### 属性和方法
+
+---
+
+##### Note
+
+`obj.attribute_name`似乎已经不能再使用，建议使用dir()函数
+
+---
 
 Python的对象通常都有属性（其它存储在对象内部的Python对象）和方法（对象的附属函数可以访问对象的内部数据）。可以用`obj.attribute_name`访问属性和方法：
 
@@ -790,6 +857,14 @@ r1 = sm.f(pi)
 r2 = gf(6, pi)
 ```
 
+---
+
+##### Note
+
+import语句会在Python默认的包存储目录和当前目录下找到符合的模块文件
+
+---
+
 ### 二元运算符和比较运算符
 
 大多数二元数学运算和比较都不难想到：
@@ -841,6 +916,15 @@ Out[42]: True
 
 ![&#x8868;2-3 &#x4E8C;&#x5143;&#x8FD0;&#x7B97;&#x7B26;](http://upload-images.jianshu.io/upload_images/7178691-9fb5f25b33166acf.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240)
 
+---
+
+##### Note
+
+1. 其他按位运算符都是bool值和int值分开算的，对于bool值，按位运算和逻辑运算除了优先级不同其他没什么不同
+2. 但~这个按位取反运算符无论是对于bool值还是int值，都会转换成int值然后按位取反。优先级也要高出其他按位运算符，和算术运算符同级
+
+---
+
 ### 可变与不可变对象
 
 Python中的大多数对象，比如列表、字典、NumPy数组，和用户定义的类型（类），都是可变的。意味着这些对象或包含的值可以被修改：
@@ -854,7 +938,7 @@ In [45]: a_list
 Out[45]: ['foo', 2, (3, 4)]
 ```
 
-其它的，例如字符串和元组，是不可变的：
+其它的，例如字符串和元组（int,float,bool,None)，是不可变的：
 
 ```python
 In [46]: a_tuple = (3, 5, (4, 5))
@@ -1130,6 +1214,14 @@ In [96]: bool(0)
 Out[96]: False
 ```
 
+---
+
+##### Note
+
+python中内置的数据类型和数据结构本身既是类名，也是类型转换函数，类型转换函数总是创建副本
+
+---
+
 ### None
 
 None是Python的空值类型。如果一个函数没有明确的返回值，就会默认返回None：
@@ -1164,6 +1256,14 @@ def add_and_maybe_multiply(a, b, c=None):
 In [101]: type(None)
 Out[101]: NoneType
 ```
+
+---
+
+##### Note
+
+函数中不写return和`return`、 `return None`是作用相同，都是返回None
+
+---
 
 ### 日期和时间
 
@@ -1419,6 +1519,15 @@ for i in range(100000):
 ```
 
 虽然range可以产生任意大的数，但任意时刻耗用的内存却很小。
+
+---
+
+##### Note
+
+1. range(n)里面有n个元素
+2. 如果是对range(0)做for循环的话，不会报错，也不会执行任何操作
+
+---
 
 ### 三元表达式
 
