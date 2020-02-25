@@ -1524,8 +1524,26 @@ for i in range(100000):
 
 ##### Note
 
-1. range(n)里面有n个元素
-2. 如果是对range(0)做for循环的话，不会报错，也不会执行任何操作
+1. range()函数用法见官方文档：https://docs.python.org/3.7/library/stdtypes.html?highlight=range#range
+
+2. range(n)里面有n个元素，三个参数中第二个参数不可省略
+
+3. 如果起点参数与终点参数相等，比如range(10,10),range(0)，不会报错，list转换后是一个空列表，做for循环的话，也不会执行任何操作，for循环中的序号参数（比如i）也不会被赋值
+
+4. 如果起点参数大于终点参数，且步长为正的话，不会报错，list转换后是一个空列表，做for循环的话，也不会执行任何操作，for循环中的序号参数（比如i）也不会被赋值
+
+   eg:
+
+   ```python
+   In [1]: i = 0
+   
+   In [2]: for i in range(15,10):
+      ...:     print(i)
+      ...:
+   
+   In [3]: i
+   Out[3]: 0
+   ```
 
 ---
 
