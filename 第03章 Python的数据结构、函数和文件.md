@@ -307,7 +307,7 @@ Out[56]: False
 1. .append()里面是元素，在列表末尾添加，.extend()里面是列表，在列表末尾添加，类似与加号，区别在于，加号是创建了第三个列表，而extend是在原有列表基础上修改。
 2. .pop()是根据位置下标删除元素，默认参数为-1，.remove()是删除指定值的元素，而且只删除第一个
 3. list也有.count()方法，类似tuple中的
-4. list加法和乘法的效果和tuple一样
+4. list/str加法和乘法的效果和tuple一样，结果是复制不是原地改变
 
 ---
 
@@ -619,8 +619,8 @@ Out[99]: ('Ryan', 'Clemens', 'Curt')
 
 ##### Note
 
-1. enumerate输入单个序列，输出元组序列生成器
-2. zip输入多个序列，输出元组序列生成器
+1. enumerate输入单个序列，输出元组序列迭代器
+2. zip输入多个序列，输出元组序列迭代器，长度取决于最短的序列
 3. zip(*)输入元组序列，返回多个序列
 
 ---
@@ -716,6 +716,7 @@ Out[116]: {'a': 'some value', 'b': [1, 2, 3, 4], 7: 'an integer'}
 ```
 
 ``keys``和``values``是字典的键和值的迭代器方法。虽然键值对没有顺序，这两个方法可以用相同的顺序输出键和值：
+
 ```python
 In [117]: list(d1.keys())
 Out[117]: ['a', 'b', 7]
@@ -724,7 +725,17 @@ In [118]: list(d1.values())
 Out[118]: ['some value', [1, 2, 3, 4], 'an integer']
 ```
 
+---
+
+##### Note
+
+1. .items()返回一个由键值元组组成的迭代器
+2. 如果直接对字典进行迭代是对key值进行迭代
+
+---
+
 用``update``方法可以将一个字典与另一个融合：
+
 ```python
 In [119]: d1.update({'b' : 'foo', 'c' : 12})
 
@@ -801,7 +812,17 @@ for word in words:
     by_letter[word[0]].append(word)
 ```
 
+---
+
+##### Note
+
+1. default_dict见官方文档：https://docs.python.org/3.7/library/collections.html?highlight=defaultdict#collections.defaultdict
+2. 把字典中没有的key值放在方括号中索引，如果是赋值的话会创建新的键值对不会报错，如果只是索引会报错，想使之不报错就要使用collections.defaultdict
+
+---
+
 ## 有效的键类型
+
 字典的值可以是任意Python对象，而键通常是不可变的标量类型（整数、浮点型、字符串）或元组（元组中的对象必须是不可变的）。这被称为“可哈希性”。可以用``hash``函数检测一个对象是否是可哈希的（可被用作字典的键）：
 
 ```python
@@ -829,7 +850,17 @@ In [132]: d
 Out[132]: {(1, 2, 3): 5}
 ```
 
+---
+
+##### Note
+
+1. 字典中方法见官方文档：[https://docs.python.org/3.7/library/stdtypes.html?highlight=dict%20pop#dict.pop](https://docs.python.org/3.7/library/stdtypes.html?highlight=dict pop#dict.pop)
+2. 需要掌握的有：.keys() .values() .items() .get() .pop() .clear() .copy()
+
+---
+
 ## 集合
+
 集合是无序的不可重复的元素的集合。你可以把它当做字典，但是只有键没有值。可以用两种方式创建集合：通过set函数或使用尖括号set语句：
 
 ```python
@@ -920,7 +951,20 @@ In [153]: {1, 2, 3} == {3, 2, 1}
 Out[153]: True
 ```
 
+---
+
+##### Note
+
+1. 元组创建方法:()或者不加圆括号或者类型转换函数tuple()
+2. 列表创建方法: []或者类型转换函数list()
+3. 字典创建方法：{}或者类型转换函数dict()
+4. 集合创建方法：{}或者类型转换函数set()
+5. 需要注意的是，如果要创建空集合的话，需要用set()，{}会被认为是空字典
+
+---
+
 ## 列表、集合和字典推导式
+
 列表推导式是Python最受喜爱的特性之一。它允许用户方便的从一个集合过滤元素，形成列表，在传递参数的过程中还可以修改元素。形式如下：
 
 ```python
@@ -971,6 +1015,16 @@ Out[157]: {1, 2, 3, 4, 6}
 In [158]: set(map(len, strings))
 Out[158]: {1, 2, 3, 4, 6}
 ```
+
+---
+
+##### Note
+
+1. python内置map函数：https://www.runoob.com/python/python-func-map.html
+2. python内置len函数：https://docs.python.org/3.7/library/functions.html?highlight=len#len
+3. int,float等是python内置的数据类型，dict,list等是python内置的数据结构，len(),isinstance(),map,list()等是python内置的函数。内置built-in
+
+---
 
 作为一个字典推导式的例子，我们可以创建一个字符串的查找映射表以确定它在列表中的位置：
 
@@ -1363,7 +1417,18 @@ In [192]: dict((i, i **2) for i in range(5))
 Out[192]: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 ```
 
+---
+
+##### Note
+
+1. 生成器与迭代器的详细讲解见廖雪峰的python教程
+2. 凡是可以使用for循环的都是可迭代对象，凡是可以使用next()函数输出下一个值的都是迭代器，凡是用上面两种方法创建的都是生成器。初步理解，可迭代对象Iterable包括python自带的集合数据类型(list,tuple等)和迭代器Iterator，迭代器包括生成器generator
+3. 可以使用iter()函数把Iterable变成Iterator,可以使用list()函数把Iterator实体化为列表到内存中
+
+---
+
 ## itertools模块
+
 标准库itertools模块中有一组用于许多常见数据算法的生成器。例如，groupby可以接受任何序列和一个函数。它根据函数的返回值对序列中的连续元素进行分组。下面是一个例子：
 
 ```python
@@ -1494,7 +1559,12 @@ finally:
     f.close()
 ```
 
+##### Note 以下暂时不需要掌握
+
+---
+
 ## IPython的异常
+
 如果是在%run一个脚本或一条语句时抛出异常，IPython默认会打印完整的调用栈（traceback），在栈的每个点都会有几行上下文：
 
 ```python
@@ -1742,6 +1812,8 @@ In [244]: f.close()
 ```
 
 如果你经常要对非ASCII字符文本进行数据分析，通晓Python的Unicode功能是非常重要的。更多内容，参阅Python官方文档。
+
+---
 
 # 3.4 结论
 我们已经学过了Python的基础、环境和语法，接下来学习NumPy和Python的面向数组计算。
