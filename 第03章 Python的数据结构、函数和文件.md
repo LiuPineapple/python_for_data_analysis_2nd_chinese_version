@@ -203,7 +203,18 @@ In [35]: a.count(2)
 Out[35]: 4
 ```
 
+---
+
+##### Note
+
+python中的元组只内置了两种方法，.index()和.count()
+
+https://www.w3school.com.cn/python/python_ref_tuple.asp
+
+---
+
 ## 列表
+
 与元组对比，列表的长度可变、内容可以被修改。你可以用方括号定义，或用``list``函数：
 
 ```python
