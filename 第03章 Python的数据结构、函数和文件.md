@@ -155,7 +155,7 @@ Out[26]: 1
 
 ##### Note
 
-这里会先把a,b拆分成元组，再赋值给前一个元组，所以不用担心出现重复
+猜测这里的原因是，a,b会形成一个元组，这个元组中第一个元素引用a引用的内存，第二个元素类似。接下来，前一个元组引用这个元组，b这个变量就指向这个元组中第一个元素的指向，a类似，所以不用担心出现重复
 
 ---
 
@@ -1032,7 +1032,11 @@ Out[158]: {1, 2, 3, 4, 6}
 ##### Note
 
 1. python内置map函数：https://www.runoob.com/python/python-func-map.html
+
+   map函数第一个参数接收函数，可以是python内置的函数名，也可以是自己写的函数名，也可以是匿名函数表达式。这一点与sort方法和sorted函数中的key一样
+
 2. python内置len函数：https://docs.python.org/3.7/library/functions.html?highlight=len#len
+
 3. int,float等是python内置的数据类型，dict,list等是python内置的数据结构，len(),isinstance(),map,list()等是python内置的函数。内置built-in
 
 ---
