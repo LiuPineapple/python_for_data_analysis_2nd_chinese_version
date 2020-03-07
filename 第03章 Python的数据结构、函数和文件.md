@@ -391,6 +391,12 @@ Out[66]: ['He', 'saw', 'six', 'small', 'foxes']
 
 2. .sort和.reverse方法都是inplace改变，对应sorted和reversed函数返回副本。
 
+3. 在.sort()方法和sorted()函数中，原本有着cmp参数，可以接收一个有两个参数的函数名，后来被废弃，作用可以看作是对序列中的值进行冒泡排序，不过重新定义了两个值的大小规则。如果在python3中想实现类似功能，要从functools模块导出cmp_to_key()函数，cmp_to_key()函数中的参数为一个有两个参数的比较函数名，对于这个比较函数来说，如果按照新的规则，第一个参数大于第二个参数，返回1，相等返回0，小于返回-1。如果序列中两个相邻元素比较返回1，那么就代表前一个更大，在默认reverse等于False的排序中，把前一个与后一个换位，见：
+
+   https://docs.python.org/3.7/library/functions.html?highlight=sorted#sorted
+
+   例子见剑指offer第45题。
+
 ---
 
 ## 二分搜索和维护已排序的列表
