@@ -756,7 +756,7 @@ Out[118]: ['some value', [1, 2, 3, 4], 'an integer']
 ##### Note
 
 1. .items()返回一个由键值元组组成的迭代器
-2. 如果直接对字典进行迭代是对key值进行迭代
+2. 如果直接对字典进行迭代是对key值进行迭代，如果直接对字典进行成员判断判断的是不是在key中
 
 ---
 
@@ -843,7 +843,7 @@ for word in words:
 ##### Note
 
 1. default_dict见官方文档：https://docs.python.org/3.7/library/collections.html?highlight=defaultdict#collections.defaultdict
-2. 把字典中没有的key值放在方括号中索引，如果是赋值的话会创建新的键值对不会报错，如果只是索引会报错，想使之不报错就要使用collections.defaultdict
+2. 把字典中没有的key值放在方括号中索引，如果是赋值的话会创建新的键值对不会报错，如果只是索引会报错，想使之不报错就要使用collections.defaultdict。即dict可以通过索引的方式添加值但list，tuple不行，会报错
 
 ---
 
