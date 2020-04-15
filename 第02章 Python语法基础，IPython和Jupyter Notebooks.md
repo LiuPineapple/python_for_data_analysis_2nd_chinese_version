@@ -671,7 +671,7 @@ Out[29]: [1, 2, 3, 4]
 
 ##### Note
 
-python函数传参是否会改变函数外参数的值（记住即可，不深究）？
+python函数传参是否会改变函数外参数的值？
 
 1. 也就是说，当我们传的参数是Number ,String , Tuple，bool等不可变对象时，无论函数中对其做什么操作，都不会改变函数外这个参数的值；当传的是dictionary、list等可变对象时，如果是重新对其进行赋值，则不会改变函数外参数的值，如果是对其进行操作，则会改变。
 
@@ -836,6 +836,23 @@ if not isinstance(x, list) and isiterable(x):
     x = list(x)
 ```
 
+---
+
+##### Note
+
+1. iter()函数把可迭代对象转换为迭代器，输入必须是可迭代对象(Iterable)，否则会报错
+
+2. 判断是否是可迭代对象和迭代器更好的方法是
+
+   ```python
+   from collections.abc import Iterable
+   from collections.abc import Iterator
+   isinstance([], Iterable)
+   isinstance([], Iterator)
+   ```
+
+---
+
 ### 引入
 
 在Python中，模块就是一个有`.py`扩展名、包含Python代码的文件。假设有以下模块：
@@ -940,7 +957,9 @@ Out[42]: True
 ##### Note
 
 1. 其他按位运算符都是bool值和int值分开算的，对于bool值，按位运算和逻辑运算除了优先级不同其他没什么不同
-2. 但~这个按位取反运算符无论是对于bool值还是int值，都会转换成int值然后按位取反。优先级也要高出其他按位运算符，和算术运算符同级
+2. 但~这个按位取反运算符无论是对于bool值还是int值，都会转换成int值然后按位取反。优先级也要高出其他按位运算符，和算术运算符同级。
+3. 异或的意思就是对于bool值来说，两个相同则为False，不同则为True。同时，之所以python中取幂运算是**而不是matlab等语言中的^，也是因为^霸占了位置。
+4. Python中运算符的优先级：https://www.runoob.com/python/python-operators.html#ysf8
 
 ---
 

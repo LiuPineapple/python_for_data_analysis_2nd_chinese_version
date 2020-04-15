@@ -317,7 +317,7 @@ Out[56]: False
 
 1. .append()里面是元素，在列表末尾添加，.extend()里面是列表，在列表末尾添加，类似与加号，区别在于，加号是创建了第三个列表，而extend是在原有列表基础上修改。
 2. .pop()是根据位置下标删除元素，默认参数为-1，.remove()是删除指定值的元素，而且只删除第一个
-3. list也有.count()方法，类似tuple中的
+3. list也有.count()/.index()方法，类似tuple中的，注意index是返回第一个索引
 4. list/str加法和乘法的效果和tuple一样，结果是复制不是原地改变
 
 ---
@@ -645,7 +645,7 @@ Out[99]: ('Ryan', 'Clemens', 'Curt')
 
 ##### Note
 
-1. enumerate输入单个序列，输出元组序列迭代器
+1. enumerate输入单个序列，输出元组序列迭代器。注意，enumerate函数其实是可以有第二个参数的，第二个参数为start，代表开始日期
 2. zip输入多个序列，输出元组序列迭代器，长度取决于最短的序列
 3. zip(*)输入元组序列，返回多个序列
 
@@ -842,7 +842,7 @@ for word in words:
 
 ##### Note
 
-1. default_dict见官方文档：https://docs.python.org/3.7/library/collections.html?highlight=defaultdict#collections.defaultdict
+1. defaultdict见官方文档：https://docs.python.org/3.7/library/collections.html?highlight=defaultdict#collections.defaultdict
 2. 把字典中没有的key值放在方括号中索引，如果是赋值的话会创建新的键值对不会报错，如果只是索引会报错，想使之不报错就要使用collections.defaultdict。即dict可以通过索引的方式添加值但list，tuple不行，会报错
 
 ---
