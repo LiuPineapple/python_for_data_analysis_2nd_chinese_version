@@ -1344,6 +1344,14 @@ In [109]: datetime.strptime('20091031', '%Y%m%d')
 Out[109]: datetime.datetime(2009, 10, 31, 0, 0)
 ```
 
+---
+
+##### Note
+
+类似Mysql里的STR_TO_DATE('20091031', '%Y%m%d')
+
+---
+
 表2-5列出了所有的格式化命令。
 
 ![&#x8868;2-5 Datetime&#x683C;&#x5F0F;&#x5316;&#x6307;&#x4EE4;&#xFF08;&#x4E0E;ISO C89&#x517C;&#x5BB9;&#xFF09;](http://upload-images.jianshu.io/upload_images/7178691-100f9a20c1536553.png?imageMogr2/auto-orient/strip|imageView2/2/w/1240)
@@ -1430,6 +1438,14 @@ In [120]: 4 > 3 > 2 > 1
 Out[120]: True
 ```
 
+---
+
+##### Note
+
+类似于Mysql CASE WHEN THEN，也是一个条件为True，后面的代码就不会执行了
+
+---
+
 ### for循环
 
 for循环是在一个集合（列表或元组）中进行迭代，或者就是一个迭代器。for循环的标准语法是：
@@ -1507,7 +1523,8 @@ while x > 0:
 
 ##### Note
 
-break和continue都作用在包裹它们的最近一个循环上
+1. break和continue都作用在包裹它们的最近一个循环上
+2. 大概知道循环次数用for，知道循环条件用while
 
 ---
 
