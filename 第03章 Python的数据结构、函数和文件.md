@@ -1789,10 +1789,11 @@ Out[227]:
 对于同一个file-like Object，只要没有关闭，那么read([size])每次读完，光标会停在上一次读的地方，再次调用read([size])，会读取上一次后面的内容。readline()也是这样，不过readline()一次读取一行（包括这一行的换行符）
 
 ```python
-with open('test1.txt') as f:
-    print(f.read(2))
-    print(f.read(3))
-    print(f.read(6))
+In [1]: with open("test1.txt") as f:
+   ...:     print(f.read(2))
+   ...:     print(f.read(3))
+   ...:     print(f.read(6))
+   ...:
 点卡
 
 量点
@@ -1800,10 +1801,12 @@ with open('test1.txt') as f:
 卡能量
 点
 
-f = open('test1.txt')
-f.readline()
-'点卡\n'
-f.close()
+In [2]: f = open("test1.txt")
+
+In [3]: f.readline()
+Out[3]: '点卡\n'
+
+In [4]: f.close()
 ```
 
 test1.txt内容为：
