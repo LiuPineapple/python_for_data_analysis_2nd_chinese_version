@@ -882,6 +882,8 @@ Out[132]: {(1, 2, 3): 5}
 
 1. 字典中方法见官方文档：[https://docs.python.org/3.7/library/stdtypes.html?highlight=dict%20pop#dict.pop](https://docs.python.org/3.7/library/stdtypes.html?highlight=dict pop#dict.pop)
 2. 需要掌握的有：.keys() .values() .items() .get() .pop() .clear() .copy()
+3. 可变对象mutable与不可变对象inmutable，可哈希hashable与不可哈希unhashable
+4. 可哈希的即不可变的，不可哈希的即可变的，见如下链接:https://blog.csdn.net/qq_27825451/article/details/102822506
 
 ---
 
@@ -1048,7 +1050,9 @@ Out[158]: {1, 2, 3, 4, 6}
 
 1. python内置map函数：https://www.runoob.com/python/python-func-map.html
 
-   map函数第一个参数接收函数，可以是python内置的函数名，也可以是自己写的函数名，也可以是匿名函数表达式。这一点与sort方法和sorted函数中的key一样
+   map函数第一个参数接收函数，可以是python内置的函数名，也可以是自己写的函数名，也可以是匿名函数表达式。这一点与sort方法和sorted函数中的key一样。这是因为函数也是对象，传入函数名其实就是传入这个对象
+
+   map函数最后返回迭代器
 
 2. python内置len函数：https://docs.python.org/3.7/library/functions.html?highlight=len#len
 
@@ -1190,7 +1194,16 @@ In [170]: print(a)
 
 >注意：我常常建议人们不要频繁使用global关键字。因为全局变量一般是用于存放系统的某些状态的。如果你发现自己用了很多，那可能就说明得要来点儿面向对象编程了（即使用类）。
 
+---
+
+##### Note
+
+函数中的变量默认是在局部命名空间中的，如果使用global关键字则变成全局命名空间中的
+
+---
+
 ## 返回多个值
+
 在我第一次用Python编程时（之前已经习惯了Java和C++），最喜欢的一个功能是：函数可以返回多个值。下面是一个简单的例子：
 
 ```python
@@ -1452,8 +1465,12 @@ Out[192]: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 ##### Note
 
 1. 生成器与迭代器的详细讲解见廖雪峰的python教程
-2. 凡是可以使用for循环的都是可迭代对象，凡是可以使用next()函数输出下一个值的都是迭代器，凡是用上面两种方法创建的都是生成器。初步理解，可迭代对象Iterable包括python自带的集合数据类型(list,tuple等)和迭代器Iterator，迭代器包括生成器generator
+2. 凡是可以使用for循环的都是可迭代对象，凡是可以使用next()函数输出下一个值的都是迭代器，凡是用上面两种方法创建的都是生成器。初步理解，可迭代对象Iterable包括python自带的集合数据类型(list,tuple等)和迭代器Iterator，迭代器包括生成器generator。在对list等可迭代对象使用for循环时，python会自动创建迭代器
 3. 可以使用iter()函数把Iterable变成Iterator,可以使用list()函数把Iterator实体化为列表到内存中
+
+---
+
+以下暂时不需要掌握
 
 ---
 
@@ -1480,7 +1497,10 @@ S ['Steven']
 
 ![表3-2 一些有用的itertools函数](http://upload-images.jianshu.io/upload_images/7178691-111823d8767a104d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+---
+
 ## 错误和异常处理
+
 优雅地处理Python的错误和异常是构建健壮程序的重要部分。在数据分析中，许多函数函数只用于部分输入。例如，Python的float函数可以将字符串转换成浮点数，但输入有误时，有``ValueError``错误：
 
 ```python
