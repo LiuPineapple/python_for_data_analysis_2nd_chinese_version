@@ -1782,7 +1782,43 @@ Out[227]:
 
 ![表3-4 Python重要的文件方法或属性](http://upload-images.jianshu.io/upload_images/7178691-d25bd6e730afeb39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+---
+
+##### Note
+
+对于同一个file-like Object，只要没有关闭，那么read([size])每次读完，光标会停在上一次读的地方，再次调用read([size])，会读取上一次后面的内容。readline()也是这样，不过readline()一次读取一行（包括这一行的换行符）
+
+```python
+with open('test1.txt') as f:
+    print(f.read(2))
+    print(f.read(3))
+    print(f.read(6))
+点卡
+
+量点
+
+卡能量
+点
+
+f = open('test1.txt')
+f.readline()
+'点卡\n'
+f.close()
+```
+
+test1.txt内容为：
+
+点卡
+量点
+卡能量
+点卡能
+
+第一次读取为"点卡"，第二次为"\n量点"，第三次为"\n卡能量\n点"，而print()在打印完后会自动换行，也就是自动加一个"\n"，由此造成了上面的结果。
+
+---
+
 ## 文件的字节和Unicode
+
 Python文件的默认操作是“文本模式”，也就是说，你需要处理Python的字符串（即Unicode）。它与“二进制模式”相对，文件模式加一个b。我们来看上一节的文件（UTF-8编码、包含非ASCII字符）：
 
 ```python
