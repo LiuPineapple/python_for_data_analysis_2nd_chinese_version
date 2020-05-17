@@ -1661,3 +1661,15 @@ In [271]: steps = np.random.normal(loc=0, scale=0.25,
 
 # 4.8 结论
 虽然本书剩下的章节大部分是用pandas规整数据，我们还是会用到相似的基于数组的计算。在附录A中，我们会深入挖掘NumPy的特点，进一步学习数组的技巧。
+
+---
+
+##### Note
+
+补充：
+
+np.expand_dims:https://numpy.org/devdocs/reference/generated/numpy.expand_dims.html?highlight=expand_dims#numpy.expand_dims
+
+在哪个维度增加，则那个维度的长度为1。函数返回的是原数据的视图
+
+---
