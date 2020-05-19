@@ -38,7 +38,7 @@ dtype: int64
 
 1. Series等与list不同，无法直接创建，只能通过类型转换函数创建，或者你也可以认为这就是直接创建。
 
-2. 创建Series之后，pd会自动把values转换为np数组，index总为pd中的Index类或者其子类的实例。
+2. 创建Series的时候，传入的值是任意序列数据，传入的index是任意序列数据，创建之后，pd会自动把values转换为np数组，index总为pd中的Index类或者其子类的实例。
 
    ~~~python
    ex1 = [1,2,'er',4]
@@ -147,7 +147,10 @@ dtype: float64
 
 ---
 ##### Note
-Series进行布尔型索引的方法为传入一个index相同的bool型Series。
+
+1. np的函数和运算都可以用于Series，也是元素级的
+
+2. Series进行布尔型索引的方法为传入一个index相同的bool型Series。
 
 ---
 
@@ -494,7 +497,7 @@ Out[64]: Index(['year', 'state', 'pop', 'debt'], dtype='object')
 ---
 ##### Note
 1. 列索引和属性的方法都可以提取出一个Series出来(提取出来的是视图，即使赋值给其他变量也是视图,与np数组一样)也都可以进行赋值（三种赋值方法，单个值广播，数目一样的序列，Series精确匹配），赋值结果会反应到原本的DataFrame中。
-2. 只有列索引的方法可以创建新列和删除列（使用del）。
+2. 只有列索引的方法可以创建新列和删除列（使用del）。del可以删除属性，但无法删除一列。这类似于字典，可以通过索引不存在的键赋值的方法创建新的键值对，可以通过del dict[index]的方法删除数据
 
 ---
 
@@ -1026,7 +1029,7 @@ New York   12   13     14    15
 2.传入一个大小相同的布尔型DataFrame
 2. 利用index或者说标签进行切片末端是包含的。
 3. Series对象既可以使用标签（index）进行索引/切片，也可以使用整数（下标）进行索引/切片。
-4. DataFrame如果不用loc和iloc方法，使用标签是进行列索引/切片，即提取一列或多列，使用整数的话是进行行切片，且只能进行切片，即提取多行，而无法进行索引，即提取一行。
+4. DataFrame如果不用loc和iloc方法，使用标签是进行列索引/切片，即提取一列或多列，使用整数的话是进行行切片，且只能进行切片，即提取多行，而无法进行索引，即提取一行。建议DataFrame总是使用loc和iloc方法。
 
 ---
 
@@ -1137,7 +1140,7 @@ dtype: float64
 
 ---
 ##### Note
-3. 之前的两种方法在标签也是整数的时候会产生歧义，这时候默认使用的是标签。故建议使用loc和iloc的方法进行行和列索引切片，可以说是非常方便了。
+3. 之前的两种方法在标签也是整数的时候会产生歧义，这时候默认使用的是标签。故无论是Series还是DataFrame都建议使用loc和iloc的方法进行行和列索引切片，可以说是非常方便了。
 
 ---
 
@@ -1441,7 +1444,7 @@ Oregon -1.0  0.0  1.0
 ---
 ##### Note
 1. 多个DataFrame或Series进行运算是根据行索引和列索引（如果有的话）取并、补NaN，对齐后再进行运算。没有重叠的地方（相当于一个对象多了未重叠部分，但是取值为NaN)和其中一个对象为NaN的地方，运算完都是NaN。
-2.  DataFrame对象和Series对象不只有算术运算（使用算术运算符），还有算术运算方法。
+2.  DataFrame对象和Series对象不只有算术运算（使用算术运算符），还有算术运算方法。np也是
 3.  fill_value=0或其它常数，意思是在取并补NaN后，但没有运算之前，把所有的NaN替换为某一个常数
 4.  广播是使用低维度的数据与高维度的数据进行匹配。
 
@@ -1518,10 +1521,6 @@ min -0.555730  0.281746 -1.296221
 max  1.246435  1.965781  1.393406
 ```
 
-##### Note 以下暂时不需要掌握
-
----
-
 元素级的Python函数也是可以用的。假如你想得到frame中各个浮点值的格式化字符串，使用applymap即可：
 
 ```python
@@ -1546,6 +1545,12 @@ Texas      0.77
 Oregon    -1.30
 Name: e, dtype: object
 ```
+
+---
+
+##### Note
+
+pd对象的apply方法,applymap方法,map方法类似于python内置的map函数
 
 ---
 
@@ -1654,7 +1659,7 @@ Out[214]:
 
 ---
 ##### Note
-sort_values()也有inplace参数，默认是False，即创建副本。有axis参数，默认是0，有ascending参数，默认是True，即升序。
+sort_values()也有inplace参数，默认是False，即创建副本。有axis参数，默认是0，有ascending参数，默认是True，即升序需要记住的参数是by,inplace,ascending,axis
 
 ---
 
@@ -1900,6 +1905,10 @@ dtype: object
 
 ---
 
+##### Note 以下暂时不需要掌握
+
+---
+
 ## 相关系数与协方差
 
 有些汇总统计（如相关系数和协方差）是通过参数对计算出来的。我们来看几个DataFrame，它们的数据来自Yahoo!Finance的股票价格和成交量，使用的是pandas-datareader包（可以用conda或pip安装）：
@@ -1994,7 +2003,10 @@ dtype: float64
 
 传入axis='columns'即可按行进行计算。无论如何，在计算相关系数之前，所有的数据项都会按标签对齐。
 
+---
+
 ## 唯一值、值计数以及成员资格
+
 还有一类方法可以从一维Series的值中抽取信息。看下面的例子：
 ```python
 In [251]: obj = pd.Series(['c', 'a', 'd', 'a', 'a', 'b', 'b', 'c', 'c'])
@@ -2034,7 +2046,8 @@ dtype: int64
 
 ##### Note
 
-unique和value_counts都是对值进行计算，和index无关。
+1. unique和value_counts都是对值进行计算，和index无关。
+2. pd里的unique方法和函数返回的是np数组
 
 ---
 
@@ -2142,8 +2155,9 @@ Out[266]:
 
 补充：
 
-1. pandas.DataFrame.interpolate方法（也可用于Series），用于对缺失值插值，官方文档如下：
+1. pandas.DataFrame.interpolate方法（也可用于Series），用于对缺失值插值，官方文档如下：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.interpolate.html
+2. pandas.DataFrame.iterrows()方法，生成生成器：[https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iterrows.html?highlight=dataframe%20iterrows#pandas.DataFrame.iterrows](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iterrows.html?highlight=dataframe iterrows#pandas.DataFrame.iterrows)
 
-https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.interpolate.html
+
 
 ---

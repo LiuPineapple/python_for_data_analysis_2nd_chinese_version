@@ -429,7 +429,9 @@ Out[66]: ['He', 'saw', 'six', 'small', 'foxes']
 
 2. .sort和.reverse方法都是inplace改变，对应sorted和reversed函数返回副本。
 
-3. 在.sort()方法和sorted()函数中，原本有着cmp参数，可以接收一个有两个参数的函数名，后来被废弃，作用可以看作是对序列中的值进行冒泡排序，不过重新定义了两个值的大小规则。如果在python3中想实现类似功能，要从functools模块导出cmp_to_key()函数，cmp_to_key()函数中的参数为一个有两个参数的比较函数名，对于这个比较函数来说，如果按照新的规则，第一个参数大于第二个参数，返回1，相等返回0，小于返回-1。如果序列中两个相邻元素比较返回1，那么就代表前一个更大，在默认reverse等于False的排序中，把前一个与后一个换位，见：
+3. 只有list有.sort方法，但是sorted函数可以作用于任何Iterable，返回的都是列表，有key和reverse两个参数
+
+4. 在.sort()方法和sorted()函数中，原本有着cmp参数，可以接收一个有两个参数的函数名，后来被废弃，作用可以看作是对序列中的值进行冒泡排序，不过重新定义了两个值的大小规则。如果在python3中想实现类似功能，要从functools模块导出cmp_to_key()函数，cmp_to_key()函数中的参数为一个有两个参数的比较函数名，对于这个比较函数来说，如果按照新的规则，第一个参数大于第二个参数，返回1，相等返回0，小于返回-1。如果序列中两个相邻元素比较返回1，那么就代表前一个更大，在默认reverse等于False的排序中，把前一个与后一个换位，见：
 
    https://docs.python.org/3.7/library/functions.html?highlight=sorted#sorted
 
@@ -1090,11 +1092,13 @@ Out[158]: {1, 2, 3, 4, 6}
 
    map函数第一个参数接收函数，可以是python内置的函数名，也可以是自己写的函数名，也可以是匿名函数表达式。这一点与sort方法和sorted函数中的key一样。这是因为函数也是对象，传入函数名其实就是传入这个对象
 
-   map函数最后返回迭代器
+   map,zip函数最后返回迭代器，range返回可迭代对象而不是迭代器
 
 2. python内置len函数：https://docs.python.org/3.7/library/functions.html?highlight=len#len
 
 3. int,float等是python内置的数据类型，dict,list等是python内置的数据结构，len(),isinstance(),map,list()等是python内置的函数。内置built-in
+
+4. 能够使用推导式的有列表，集合，字典和生成器
 
 ---
 
