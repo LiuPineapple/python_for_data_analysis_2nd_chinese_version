@@ -1668,8 +1668,12 @@ In [271]: steps = np.random.normal(loc=0, scale=0.25,
 
 补充：
 
-np.expand_dims:https://numpy.org/devdocs/reference/generated/numpy.expand_dims.html?highlight=expand_dims#numpy.expand_dims
+1. np.expand_dims:https://numpy.org/devdocs/reference/generated/numpy.expand_dims.html?highlight=expand_dims#numpy.expand_dims
 
-在哪个维度增加，则那个维度的长度为1。函数返回的是原数据的视图
+   在哪个维度增加，则那个维度的长度为1。函数返回的是原数据的视图
+
+2. 拼接数组np.concatenate():https://numpy.org/doc/stable/reference/generated/numpy.concatenate.html?highlight=concatenate#numpy.concatenate
+
+   带拼接的数组是元组，记住axis,out两个参数
 
 ---
