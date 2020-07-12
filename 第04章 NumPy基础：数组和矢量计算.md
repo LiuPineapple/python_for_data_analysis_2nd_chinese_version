@@ -1543,9 +1543,15 @@ array([ 0.4714, -1.191 ,  1.4327, -0.3127, -0.7206,  0.8872,  0.8596,
 
 需要记住的是rand,randint,randn,normal
 
+https://numpy.org/devdocs/reference/random/generated/numpy.random.rand.html
+
 https://numpy.org/devdocs/reference/random/generated/numpy.random.randint.html?highlight=randint#numpy.random.randint
 
+https://numpy.org/devdocs/reference/random/generated/numpy.random.randn.html
+
 https://numpy.org/devdocs/reference/random/generated/numpy.random.normal.html?highlight=normal#numpy.random.normal
+
+uniform至于rand就好像normal至于randn
 
 ---
 
